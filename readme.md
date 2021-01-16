@@ -13,6 +13,7 @@ unzip bundle.zip -d ./bundle
 2. set up application key
   - open index.html
   - Fill sdk key
+
 '''
 19: <script>
 20: const sdkKey = '[Put SDK Key]'
@@ -20,7 +21,9 @@ unzip bundle.zip -d ./bundle
 '''
 
 3. run server
+
 e.g.
+
 ```
 python -m http.server 8001  # then open http://localhost:8001
 ```
