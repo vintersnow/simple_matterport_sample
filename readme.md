@@ -14,11 +14,11 @@ unzip bundle.zip -d ./bundle
   - open index.html
   - Fill sdk key
 
-'''
-19: <script>
-20: const sdkKey = '[Put SDK Key]'
-21: 
-'''
+```
+19L: <script>
+20L: const sdkKey = '[Put SDK Key]'
+21L: 
+```
 
 3. run server
 
