@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Test Page</title>
+  </head>
+  <body>
+    <iframe
+      id="showcase"
+      src="/bundle/showcase.html?m=22Ub5eknCVx&play=1&qs=1&log=0"
+      width="800px"
+      height="600px"
+      frameborder=”0”
+      allow="xr-spatial-tracking"
+      allowfullscreen>
+    </iframe>
+  </body>
+  <script>
+    const sdkKey = '';
+
+    async function showBunny(sdk) {
+      // https://matterport.github.io/showcase-sdk/sdkbundle_tutorials_models.html#add-your-component-to-the-scene-node
+      const lights = await sdk.Scene.createNode();
+      lights.addComponent('mp.lights');
+      lights.start();
+
+      const modelNode = await sdk.Scene.createNode();
+
+      // Store the fbx component since we will need to adjust it in the next step.
+      const fbxComponent = modelNode.addComponent(sdk.Scene.Component.FBX_LOADER, {
+        url: 'https://gitcdn.link/repo/mrdoob/three.js/dev/examples/models/fbx/stanford-bunny.fbx',
+      });
+      fbxComponent.inputs.localScale = {
+        x: 0.00004,
+        y: 0.00004,
+        z: 0.00004
+      };
+      modelNode.obj3D.position.set(0,-1,0);
+
+      modelNode.start();
+
+      const tick = function() {
+        requestAnimationFrame(tick);
+        modelNode.obj3D.rotation.y += 0.02;
+      }
+      tick();
+    }
+
+    var showcase = document.getElementById('showcase');
+    
+    showcase.addEventListener('load', async function() {
+      let sdk;
+      try {
+        sdk = await showcase.contentWindow.MP_SDK.connect(showcase, sdkKey, '3.6');
+
+        showBunny(sdk)
+      }
+      catch(e) {
+        console.error(e);
+        return;
+      }
+
+      console.log('Hello Bundle SDK', sdk);
+    });
+  </script>
+</html>
